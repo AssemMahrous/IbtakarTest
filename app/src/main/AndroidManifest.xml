@@ -3,6 +3,7 @@
     package="tes.sa.net.ibtakar.ibtakartest">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MvpApp"
         android:allowBackup="true"
@@ -21,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.details.DetailsActivity"
+            android:label="@string/title_activity_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
