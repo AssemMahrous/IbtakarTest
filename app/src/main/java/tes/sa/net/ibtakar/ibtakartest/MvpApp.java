@@ -20,18 +20,11 @@ public class MvpApp extends Application {
         super.onCreate();
         Fresco.initialize(this);
 
-        ApiModule apiModule = new ApiModule();
-        dataManager = AppDataManager.getInstance(getApplicationContext(),
-               apiModule.provideApiService());
-
-
-
+        dataManager = new AppDataManager(getApplicationContext(),
+                ApiModule.provideApiService());
     }
-
 
     public AppDataManager getDataManager() {
         return dataManager;
     }
-
-
 }

@@ -18,7 +18,7 @@ import static tes.sa.net.ibtakar.ibtakartest.utils.Constants.BASE_URL;
 
 public class ApiModule {
 
-    public OkHttpClient provideClient() {
+    public static OkHttpClient provideClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -48,7 +48,7 @@ public class ApiModule {
         return httpClient.build();
     }
 
-    public Retrofit provideRetrofit(String baseURL, OkHttpClient client) {
+    public static Retrofit provideRetrofit(String baseURL, OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .client(client)
@@ -56,7 +56,7 @@ public class ApiModule {
                 .build();
     }
 
-    public Api provideApiService() {
+    public static Api provideApiService() {
         return provideRetrofit(BASE_URL, provideClient()).create(Api.class);
     }
 }

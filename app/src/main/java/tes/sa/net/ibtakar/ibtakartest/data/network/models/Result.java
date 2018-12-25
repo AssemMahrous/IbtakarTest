@@ -51,7 +51,7 @@ public class Result implements Parcelable
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.profilePath = ((String) in.readValue((String.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(this.knownFor, (io.KnownFor.class.getClassLoader()));
+        in.readList(this.knownFor, (KnownFor.class.getClassLoader()));
         this.adult = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
     }
 

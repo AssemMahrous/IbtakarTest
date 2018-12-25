@@ -44,7 +44,7 @@ public class PopularResponse implements Parcelable
         this.page = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.totalResults = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.totalPages = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        in.readList(this.results, (io.Result.class.getClassLoader()));
+        in.readList(this.results, (Result.class.getClassLoader()));
     }
 
     public PopularResponse() {
