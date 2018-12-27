@@ -32,7 +32,7 @@ public class ProfileImage implements Parcelable
     ;
 
     protected ProfileImage(Parcel in) {
-        in.readList(this.profiles, (io.Profile.class.getClassLoader()));
+        in.readList(this.profiles, (Profile.class.getClassLoader()));
     }
 
     public ProfileImage() {

@@ -65,11 +65,11 @@ public class DetailsPresenter<V extends DetailsMvpView> extends BasePresenter<V>
 
     @Override
     public void setData(Person person) {
-getMvpView().setData(person);
+        getMvpView().setData(person);
     }
 
     @Override
     public void setImages(List<Profile> profiles) {
-getMvpView().setImages(profiles);
+        getMvpView().setImages(profiles);
     }
 }

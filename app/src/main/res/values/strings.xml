@@ -7,4 +7,10 @@
     <string name="biography">Biography</string>
     <string name="gallery">Gallery</string>
     <string name="known_for">known for:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="yes">yes</string>
+    <string name="ibtakar">Ibtakar</string>
+    <string name="permission_dialog_message">to be able to download image you need to give permission first</string>
 </resources>

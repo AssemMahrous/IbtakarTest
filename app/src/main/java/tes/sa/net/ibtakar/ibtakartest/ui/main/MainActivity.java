@@ -2,6 +2,7 @@ package tes.sa.net.ibtakar.ibtakartest.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -117,6 +118,7 @@ public class MainActivity extends BaseActivity implements ItemClickListener, Mai
     public void OnItemClick(Result result) {
         Intent intent = DetailsActivity.getStartIntent(this);
         intent.putExtra(PERSON, result);
+        Log.v("Result", String.valueOf(result.getId()));
         startActivity(intent);
     }
 }

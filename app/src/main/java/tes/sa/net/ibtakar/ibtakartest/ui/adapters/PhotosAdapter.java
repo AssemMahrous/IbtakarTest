@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -48,7 +46,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         holder.setItemClickListener((view, position1) -> ((DetailsActivity) context).clickPosition(images.get(position)));
-        String url=BASE_IMAGE_URL + images.get(position).getFilePath();
+        String url = BASE_IMAGE_URL + images.get(position).getFilePath();
         Uri uri = Uri.parse(url);
         holder.downloadData(uri);
     }
@@ -85,7 +83,6 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
             image.getHierarchy().setProgressBarImage(new CircleProgressDrawable());
             ImageRequest imageRequest = ImageRequestBuilder
                     .newBuilderWithSource(imageData)
-                    .setResizeOptions(new ResizeOptions(200, 200))
                     .build();
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setOldController(image.getController())

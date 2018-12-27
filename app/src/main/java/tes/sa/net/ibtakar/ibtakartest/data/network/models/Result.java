@@ -1,76 +1,44 @@
 
 package tes.sa.net.ibtakar.ibtakartest.data.network.models;
 
-import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result implements Parcelable
-{
+public class Result implements Parcelable {
 
     @SerializedName("popularity")
     @Expose
-    private Double popularity;
+    private double popularity;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private int id;
     @SerializedName("profile_path")
     @Expose
     private String profilePath;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("known_for")
-    @Expose
-    private List<KnownFor> knownFor = null;
+
     @SerializedName("adult")
     @Expose
-    private Boolean adult;
-    public final static Creator<Result> CREATOR = new Creator<Result>() {
+    private boolean adult;
 
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Result createFromParcel(Parcel in) {
-            return new Result(in);
-        }
-
-        public Result[] newArray(int size) {
-            return (new Result[size]);
-        }
-
-    }
-    ;
-
-    protected Result(Parcel in) {
-        this.popularity = ((Double) in.readValue((Double.class.getClassLoader())));
-        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.profilePath = ((String) in.readValue((String.class.getClassLoader())));
-        this.name = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(this.knownFor, (KnownFor.class.getClassLoader()));
-        this.adult = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-    }
-
-    public Result() {
-    }
-
-    public Double getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(Double popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -90,33 +58,48 @@ public class Result implements Parcelable
         this.name = name;
     }
 
-    public List<KnownFor> getKnownFor() {
-        return knownFor;
-    }
-
-    public void setKnownFor(List<KnownFor> knownFor) {
-        this.knownFor = knownFor;
-    }
-
-    public Boolean getAdult() {
+    public boolean isAdult() {
         return adult;
     }
 
-    public void setAdult(Boolean adult) {
+    public void setAdult(boolean adult) {
         this.adult = adult;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(popularity);
-        dest.writeValue(id);
-        dest.writeValue(profilePath);
-        dest.writeValue(name);
-        dest.writeList(knownFor);
-        dest.writeValue(adult);
-    }
-
+    @Override
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.popularity);
+        dest.writeInt(this.id);
+        dest.writeString(this.profilePath);
+        dest.writeString(this.name);
+        dest.writeByte(this.adult ? (byte) 1 : (byte) 0);
+    }
+
+    public Result() {
+    }
+
+    protected Result(Parcel in) {
+        this.popularity = in.readDouble();
+        this.id = in.readInt();
+        this.profilePath = in.readString();
+        this.name = in.readString();
+        this.adult = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
+        @Override
+        public Result createFromParcel(Parcel source) {
+            return new Result(source);
+        }
+
+        @Override
+        public Result[] newArray(int size) {
+            return new Result[size];
+        }
+    };
 }
