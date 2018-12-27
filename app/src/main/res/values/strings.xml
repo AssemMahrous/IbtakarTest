@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="search_people">Search Popular People</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="birthday">BirthDay:</string>
+    <string name="biography">Biography</string>
+    <string name="gallery">Gallery</string>
+    <string name="known_for">known for:</string>
 </resources>

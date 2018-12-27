@@ -1,5 +1,6 @@
 package tes.sa.net.ibtakar.ibtakartest.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,7 +22,10 @@ import tes.sa.net.ibtakar.ibtakartest.data.AppDataManager;
 import tes.sa.net.ibtakar.ibtakartest.data.network.models.Result;
 import tes.sa.net.ibtakar.ibtakartest.ui.adapters.PeopleAdapter;
 import tes.sa.net.ibtakar.ibtakartest.ui.base.BaseActivity;
+import tes.sa.net.ibtakar.ibtakartest.ui.details.DetailsActivity;
 import tes.sa.net.ibtakar.ibtakartest.utils.ItemClickListener;
+
+import static tes.sa.net.ibtakar.ibtakartest.utils.Constants.PERSON;
 
 public class MainActivity extends BaseActivity implements ItemClickListener, MainMvpView {
     @BindView(R.id.toolbar)
@@ -87,7 +91,7 @@ public class MainActivity extends BaseActivity implements ItemClickListener, Mai
         }
         results.addAll(result);
         peopleAdapter.notifyDataSetChanged();
-        loading=false;
+        loading = false;
     }
 
     @Override
@@ -111,6 +115,8 @@ public class MainActivity extends BaseActivity implements ItemClickListener, Mai
 
     @Override
     public void OnItemClick(Result result) {
-
+        Intent intent = DetailsActivity.getStartIntent(this);
+        intent.putExtra(PERSON, result);
+        startActivity(intent);
     }
 }
