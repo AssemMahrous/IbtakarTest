@@ -10,6 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:actualImageScaleType="fitXY"
+        app:placeholderImageScaleType="fitXY"
+        app:failureImage="@drawable/image_place_holder"
+        app:placeholderImage="@drawable/image_place_holder"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
