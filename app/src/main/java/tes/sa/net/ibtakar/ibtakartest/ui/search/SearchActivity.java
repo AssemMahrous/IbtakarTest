@@ -126,9 +126,9 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
 
     @Override
     public void concatResult(List<Result> results) {
-        if (results.size() > 0) {
-            results.remove(results.size() - 1);
-            peopleAdapter.notifyItemRemoved(results.size());
+        if (this.results.size() > 0) {
+            this.results.remove(this.results.size() - 1);
+            peopleAdapter.notifyItemRemoved(this.results.size());
         }
 
         addResults(results);

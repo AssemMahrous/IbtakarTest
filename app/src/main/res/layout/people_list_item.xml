@@ -10,10 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:actualImageScaleType="fitXY"
-        app:placeholderImageScaleType="fitXY"
+        app:failureImageScaleType="fitXY"
         app:failureImage="@drawable/image_place_holder"
+        app:layout_constraintTop_toTopOf="parent"
         app:placeholderImage="@drawable/image_place_holder"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:placeholderImageScaleType="fitXY" />
 
     <TextView
         android:id="@+id/people_name"
