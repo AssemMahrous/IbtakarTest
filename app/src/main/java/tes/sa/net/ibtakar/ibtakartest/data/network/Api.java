@@ -1,5 +1,6 @@
 package tes.sa.net.ibtakar.ibtakartest.data.network;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -18,5 +19,10 @@ public interface Api {
 
     @GET("person/{person_id}/images")
     Call<ProfileImage> getPersonImages(@Path("person_id") int personId);
+
+    @GET("search/person")
+    Observable<PopularResponse> searchPeople(@Query("query") String query,@Query("page") int page);
+
+
 
 }

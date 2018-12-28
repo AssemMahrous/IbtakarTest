@@ -2,7 +2,6 @@ package tes.sa.net.ibtakar.ibtakartest.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import tes.sa.net.ibtakar.ibtakartest.data.network.models.Result;
 import tes.sa.net.ibtakar.ibtakartest.ui.adapters.PeopleAdapter;
 import tes.sa.net.ibtakar.ibtakartest.ui.base.BaseActivity;
 import tes.sa.net.ibtakar.ibtakartest.ui.details.DetailsActivity;
+import tes.sa.net.ibtakar.ibtakartest.ui.search.SearchActivity;
 import tes.sa.net.ibtakar.ibtakartest.utils.ItemClickListener;
 
 import static tes.sa.net.ibtakar.ibtakartest.utils.Constants.PERSON;
@@ -112,13 +112,14 @@ public class MainActivity extends BaseActivity implements ItemClickListener, Mai
 
     @OnClick(R.id.search_bar)
     public void searchClick(View view) {
+        Intent intent = SearchActivity.getStartIntent(this);
+        startActivity(intent);
     }
 
     @Override
     public void OnItemClick(Result result) {
         Intent intent = DetailsActivity.getStartIntent(this);
         intent.putExtra(PERSON, result);
-        Log.v("Result", String.valueOf(result.getId()));
         startActivity(intent);
     }
 }

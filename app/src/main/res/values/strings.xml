@@ -13,4 +13,6 @@
     <string name="yes">yes</string>
     <string name="ibtakar">Ibtakar</string>
     <string name="permission_dialog_message">to be able to download image you need to give permission first</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="search_action">Search Action</string>
 </resources>

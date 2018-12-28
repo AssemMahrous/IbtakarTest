@@ -104,7 +104,6 @@ public class PeopleAdapter extends RecyclerView.Adapter {
             people_image.getHierarchy().setProgressBarImage(new CircleProgressDrawable());
             ImageRequest imageRequest = ImageRequestBuilder
                     .newBuilderWithSource(imageData)
-                    .setResizeOptions(new ResizeOptions(200, 200))
                     .build();
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setOldController(people_image.getController())
