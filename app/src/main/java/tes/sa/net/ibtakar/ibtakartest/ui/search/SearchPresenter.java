@@ -1,14 +1,23 @@
 package tes.sa.net.ibtakar.ibtakartest.ui.search;
 
+import android.view.View;
+
+import org.reactivestreams.Publisher;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import androidx.appcompat.widget.SearchView;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import tes.sa.net.ibtakar.ibtakartest.data.AppDataManager;
@@ -40,6 +49,23 @@ public class SearchPresenter<V extends SearchMvpView> extends BasePresenter<V> i
 
     }
 
+    @Override
+    public void incrementPagination() {
+        getMvpView().incrementPagination();
+    }
+
+    @Override
+    public void initializePagination() {
+        getMvpView().initializePagination();
+    }
+
+    @Override
+    public void stopPagination() {
+        getMvpView().stopPagination();
+    }
+
+
+
     private Observable<String> getObservableQuery(SearchView searchView) {
 
         final PublishSubject<String> publishSubject = PublishSubject.create();
@@ -68,6 +94,7 @@ public class SearchPresenter<V extends SearchMvpView> extends BasePresenter<V> i
             @Override
             public void onNext(@NonNull PopularResponse popularResponse) {
                 getMvpView().displayResult(popularResponse.getResults());
+                initializePagination();
             }
 
             @Override
@@ -81,4 +108,43 @@ public class SearchPresenter<V extends SearchMvpView> extends BasePresenter<V> i
             }
         };
     }
+
+
+    private DisposableObserver<PopularResponse> getObserverPaginate() {
+        return new DisposableObserver<PopularResponse>() {
+
+            @Override
+            public void onNext(@NonNull PopularResponse popularResponse) {
+                getMvpView().concatResult(popularResponse.getResults());
+                incrementPagination();
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                e.printStackTrace();
+                stopPagination();
+                getMvpView().displayError("Error fetching Movie Data");
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+    }
+
+
+    @Override
+    public void getDataPaginated(String query, final int page) {
+        getDataManager()
+                .getApi()
+                .searchPeople(query,page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getObserverPaginate());
+
+    }
+
+
+
+
 }

@@ -12,4 +12,13 @@ public interface SearchMvpView extends MvpView {
     void displayResult(List<Result> results);
 
     void displayError(String s);
+
+    void concatResult(List<Result> results);
+
+    void incrementPagination();
+
+    void stopPagination();
+
+    void initializePagination();
+
 }

@@ -10,10 +10,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +38,7 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
     Toolbar toolbar;
     @BindView(R.id.person_search)
     RecyclerView person_search;
-    int page = 1;
+    int page = 2;
     Boolean loading = false;
     PeopleAdapter peopleAdapter;
     List<Result> results = new ArrayList<>();
@@ -50,6 +54,11 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         AppDataManager dataManager = ((MvpApp) getApplicationContext()).getDataManager();
         presenter = new SearchPresenter<>(dataManager);
         presenter.onAttach(this);
@@ -63,11 +72,40 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
         person_search.setLayoutManager(gridLayoutManager);
         peopleAdapter = new PeopleAdapter(this, results);
         person_search.setAdapter(peopleAdapter);
+        person_search.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (loading || page == 0 || results.size() == 0)
+                    return;
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int lastVisibleItem = ((LinearLayoutManager) Objects.requireNonNull(recyclerView.getLayoutManager()))
+                        .findLastVisibleItemPosition();
+                if (lastVisibleItem == totalItemCount - 1) {
+                    loading = true;
+                    initLoading();
+                }
+            }
+        });
+    }
+
+    private void initLoading() {
+        results.add(null);
+        peopleAdapter.notifyItemInserted(results.size() - 1);
+        getData();
+    }
+
+    private void getData() {
+        presenter.getDataPaginated(searchView.getQuery().toString(), page);
     }
 
     @Override
     public void displayResult(List<Result> results) {
         ClearSearch();
+        addResults(results);
+    }
+
+    private void addResults(List<Result> results) {
         this.results.addAll(results);
         notifyChange();
     }
@@ -84,6 +122,32 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
     @Override
     public void displayError(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void concatResult(List<Result> results) {
+        if (results.size() > 0) {
+            results.remove(results.size() - 1);
+            peopleAdapter.notifyItemRemoved(results.size());
+        }
+
+        addResults(results);
+        loading = false;
+    }
+
+    @Override
+    public void incrementPagination() {
+        page++;
+    }
+
+    @Override
+    public void stopPagination() {
+        page = 0;
+    }
+
+    @Override
+    public void initializePagination() {
+        page = 2;
     }
 
     @Override
@@ -104,7 +168,7 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setQueryHint("Enter Movie name..");
+        searchView.setQueryHint(getResources().getString(R.string.search_people));
         presenter.getResultsQuery(searchView);
         return super.onCreateOptionsMenu(menu);
     }
@@ -115,6 +179,12 @@ public class SearchActivity extends BaseActivity implements SearchMvpView, ItemC
         if (id == R.id.action_search) {
             return true;
         }
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
